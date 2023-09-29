@@ -5,6 +5,7 @@ $(function () {
   var today = dayjs();
   var hour = today.hour();
   var mainEl = $("main");
+  var scheduledEvents = [];
 
   // DONE: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
@@ -74,10 +75,30 @@ $(function () {
 
   function handleSaveClick(event) {
     btnClicked = $(event.target);
-    var hourSaved = btnClicked.parent().children(".hour").text();
+    var hourSaved = btnClicked.parent().attr("id");
     var textToSave = btnClicked.parent().children(".description").val();
-    console.log(textToSave + " " + hourSaved);
-    localStorage.setItem(hourSaved, textToSave);
+
+    var scheduleItem = {
+      hour: hourSaved,
+      description: textToSave
+    };
+
+    if (scheduledEvents.length == 0) {
+      scheduledEvents.push(scheduleItem);
+          localStorage.setItem("schedule", JSON.stringify(scheduledEvents));
+          return;
+    } else {
+      scheduledEvents.forEach(element => {
+        if (element.hour === hourSaved) {
+          element.description = textToSave;
+          return;
+        } else {
+          scheduledEvents.push(scheduleItem);
+          localStorage.setItem("schedule", JSON.stringify(scheduledEvents));
+          return;
+        }
+      });
+    }
   }
 
   mainEl.on("click", ".saveBtn", handleSaveClick);
@@ -85,12 +106,13 @@ $(function () {
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
-  hourElArray = $(".hour");
-  console.log(hourElArray);
-  for (i = 0; i < hourElArray.length; i++) {
-    if (localStorage.getItem(hourElArray.get(i).text()) !== "") {
-      element.parent().children(".description").text = localStorage.getItem();
-    }
+  var storedSchedule = JSON.parse(localStorage.getItem("schedule"));
+  if (storedSchedule !== null) {
+    scheduledEvents = storedSchedule;
+    scheduledEvents.forEach(element => {
+      console.log(element.hour);
+      $("#" + element.hour).children(".description").text(element.description);
+    });
   }
 
   // DONE: Add code to display the current date in the header of the page.
