@@ -6,7 +6,7 @@ This project was created to practice using third-party functional APIs (Day.js, 
 
 ## Usage
 
-Textboxes change color based on hour of day (gray is past, red is present, green is future). Saving is broken on github pages and I'm not sure why, but if it worked, then clicking the save button would save the hour & text to an object (or overwrite the object if the hour is the same) and save it to the localstorage in JSON format.
+Textboxes change color based on hour of day (gray is past, red is present, green is future). Saving works by clicking the save button would save the hour & text to an object (or overwrite the object if the hour is the same) and save it to the localstorage in JSON format. On page load, textboxes will be filled with text from the re-parsed localstorage.
 
 ![Image of website](./assets/references/website-image.png)
 [Link to GitHub Pages website](https://kevinpatto.github.io/Bootcamp-Challenge-05-Work-Day-Scheduler/)
